@@ -1,0 +1,17 @@
+name: Build and Push Auth Service Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  call_build_and_push:
+    uses: ./.github/workflows/build_and_push.yml
+    with:
+      service_name: 'auth-service'
+      dockerfile_path: 'auth-service/Dockerfile'
+      context_path: 'auth-service'
