@@ -15,3 +15,8 @@ jobs:
       service_name: 'auth-service'
       dockerfile_path: 'auth-service/Dockerfile'
       context_path: 'auth-service'
+      DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+      DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
+
+
+      
