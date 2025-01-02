@@ -12,12 +12,12 @@ on:
       context_path:
         required: true
         type: string
+    secrets:
       DOCKERHUB_USER:
         required: true
-        type: string
       DOCKERHUB_PASS:
         required: true
-        type: string
+
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
@@ -26,12 +26,11 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v4
 
-    - name: Build Docker image for ${{ inputs.service_name }}
-      run: |
-        docker build -f ${{ inputs.dockerfile_path }} -t ${{ inputs.DOCKERHUB_USER }}/${{ inputs.service_name }}:latest ${{ inputs.context_path }}
-    
+    - name: Build Docker image
+      run: docker build -f ${{ inputs.dockerfile_path }} -t ${{ secrets.DOCKERHUB_USER }}/${{ inputs.service_name }}:latest ${{ inputs.context_path }}
+
     - name: Log in to Docker Hub
-      run: echo "${{ inputs.DOCKERHUB_PASS }}" | docker login -u "${{ inputs.DOCKERHUB_PASS }}" --password-stdin
+      run: echo "${{ secrets.DOCKERHUB_PASS }}" | docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
 
     - name: Push Docker image
-      run: docker push ${{ inputs.DOCKERHUB_USER }}/${{ inputs.service_name }}:latest
+      run: docker push ${{ secrets.DOCKERHUB_USER }}/${{ inputs.service_name }}:latest
